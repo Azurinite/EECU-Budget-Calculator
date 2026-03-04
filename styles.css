@@ -1,0 +1,80 @@
+:root{
+--primary-blue:#095AA7;
+--saving-green: #1C9800; 
+
+
+
+}
+nav {
+background-color: var(--primary-blue);
+
+
+}
+
+#description{
+
+
+
+}
+
+#description p{
+font-size: 20px;
+}
+
+h1{
+font-size: 40px;
+}
+
+#mainContent {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto;
+    gap: 40px;
+}
+
+#showBudget{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    background-color: var(--primary-blue);
+}
+
+#NetIncome {
+color: black;
+background-color: white;
+padding: 5px 30%;
+border-radius: 10px;
+border: 2px solid black;
+
+}
+#NetIncome p {
+text-align: center;
+font-size: 30px;
+color: var(--saving-green);
+font-weight: 700;
+}
+
+#NetIncome h3{ /* Wrapping occurs with NetIncome h3 */
+line-height: 0%;
+font-size: 20px;
+}
+
+.Calculations{
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.Calculations h3{
+margin-right: 50px;
+}
+
+.input-fields-info{
+
+
+
+
+
+    
+}
