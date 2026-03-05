@@ -11,7 +11,7 @@
 </html>
 
 <body>
-    <header> 
+    <header>
         <nav>
             <img src="eecu-images/EECU website Logo.png">
         </nav>
@@ -25,188 +25,190 @@
             <p>7</p>
         </section>
     </header>
+    <main>
+        <section id="description">
+            <h1>Budget Calculator</h1>
+            <p>Collapse</p>
+            <p>Handling expenses can be challenging, especially after graduation. This budget calculator offers, a
+                streamlined, simple way to calculate your income after factoring in student loans, living expenses, and
+                saving for your future. All you have to do is fill in the input fields for each category, and we’ll
+                return
+                your net income! </p>
+        </section>
 
-    <section id="description">
-        <h1>Budget Calculator</h1>
-        <p>Collapse</p>
-        <p>Handling expenses can be challenging, especially after graduation. This budget calculator offers, a
-            streamlined, simple way to calculate your income after factoring in student loans, living expenses, and
-            saving for your future. All you have to do is fill in the input fields for each category, and we’ll return
-            your net income! </p>
-    </section>
-
-    <section id="mainContent">
-        <section id="showBudget">
-            <!-- Pie chart will be here, next developer will do research to find out how to implement that into the HTML document.-->
-            <section id="NetIncome">
-                <h3>Net Income</h3>
-                <p>$385</p>
-            </section>
-    
-            <section class="Calculations">
-                <h3>Monthly Income</h3>
-                <p>$5,280</p>
-            </section>
-    
-            <section>
-                <ul>
-                    <li>Student Loan $1,350</li>
-                    <li>Housing $1,895</li>
-                    <li>Essentials $800</li>
-                    <li>Lifestyle $450</li>
-                    <li>Future-Proofing $320</li>
-                </ul>
-    
-                <section class="Calculations">
-                    <h3>Monthly Expenses</h3>
+        <section id="mainContent">
+            <section id="showBudget">
+                <!-- Pie chart will be here, next developer will do research to find out how to implement that into the HTML document.-->
+                <section id="NetIncome">
+                    <h3>Net Income</h3>
                     <p>$385</p>
                 </section>
+
+                <section class="Calculations">
+                    <h3>Monthly Income</h3>
+                    <p>$5,280</p>
+                </section>
+
+                <section>
+                    <ul>
+                        <li>Student Loan $1,350</li>
+                        <li>Housing $1,895</li>
+                        <li>Essentials $800</li>
+                        <li>Lifestyle $450</li>
+                        <li>Future-Proofing $320</li>
+                    </ul>
+
+                    <section class="Calculations">
+                        <h3>Monthly Expenses</h3>
+                        <p>$385</p>
+                    </section>
+                </section>
+            </section>
+
+            <section id="input-fields">
+                <section class="inputFields">
+
+                    <h2>Monthly Income</h2>
+                    <section class="input-fields-info">
+                        <h3>Information</h3>
+                        <p>Pick your career to receive an estimate of your monthly income. Input any other sources of
+                            income
+                            that
+                            you make.</p>
+                    </section>
+
+                    <section class="inputs">
+                        <select class="options">
+                            <option value="placeholder">placeholder</option>
+                            <option value="placeholder">placeholder</option>
+                        </select>
+                        <input type="text" placeholder="Freelance/ Side Income">
+                        <input type="text" placeholder=" + New Field">
+                    </section>
+
+                </section>
+
+                <section class="hidden">
+                    <h2>Student Loans</h2>
+                    <section class="input-fields-info">
+                        <h3>Information</h3>
+                        <p>Money you pay each month to repay education-related debt, including loan principal and
+                            interest.</p>
+                    </section>
+                    <section class="inputs">
+                        <input type="text" placeholder="Monthly Payment">
+                        <input type="text" placeholder="Interest Payments">
+                        <input type="text" placeholder="Tuition Payment Plans">
+                        <input type="text" placeholder="Education Credit Card">
+                        <input type="text" placeholder="+ New Field">
+                    </section>
+                </section>
+
+                <section class="hidden">
+                    <h2>Housing</h2>
+                    <section class="input-fields-info">
+                        <h3>Information</h3>
+                        <p>Costs required to maintain a place to live, such as rent or mortgage payments, insurance, and
+                            housing-related fees.</p>
+                    </section>
+
+                    <section class="inputs">
+                        <input type="text" placeholder="Rent">
+                        <input type="text" placeholder="Mortgage">
+                        <input type="text" placeholder="Property Taxes">
+                        <input type="text" placeholder="Home/Renter's Insurance">
+                        <input type="text" placeholder="HOA Fees">
+                        <input type="text" placeholder="Parking/Garage Fees">
+                        <input type="text" placeholder="Electricity/Gas/Water">
+                        <input type="text" placeholder="+ New Field">
+                    </section>
+
+                </section>
+
+                <section class="hidden">
+                    <h2>Essentials</h2>
+                    <section class="input-fields-info">
+                        <h3>Information</h3>
+                        <p>Necessary day-to-day expenses like utilities, groceries, insurance, and basic transportation.
+                        </p>
+                    </section>
+
+                    <section class="inputs">
+                        <input type="text" placeholder="Groceries">
+                        <input type="text" placeholder="Basic Car Maintenance">
+                        <input type="text" placeholder="Internet/Phone">
+                        <input type="text" placeholder="Home/Renter's Insurance">
+                        <input type="text" placeholder="Health Insurance">
+                        <input type="text" placeholder="Car Insurance">
+                        <input type="text" placeholder="Gas/Transit">
+                        <input type="text" placeholder="Life/Disability Insurance">
+                        <input type="text" placeholder="+ New Field">
+                    </section>
+
+                </section>
+
+                <section class="hidden">
+                    <h2>Lifestyle</h2>
+                    <section class="input-fields-info">
+                        <h3>Information</h3>
+                        <p>Optional spending that supports enjoyment, comfort, and personal interests, such as dining
+                            out,
+                            fitness, and entertainment.</p>
+                    </section>
+
+
+                    <section class="inputs">
+                        <input type="text" placeholder="Pet">
+                        <input type="text" placeholder="Gym/Fitness">
+                        <input type="text" placeholder="Streaming Services">
+                        <input type="text" placeholder="Hobbies">
+                        <input type="text" placeholder="Shopping">
+                        <input type="text" placeholder="Entertainment">
+                        <input type="text" placeholder="Tavel & Vacation">
+                        <input type="text" placeholder="Travel & Vacation">
+                        <input type="text" placeholder="+ New Field">
+                    </section>
+
+                </section>
+
+                <section class="hidden">
+                    <h2>Future-Proofing</h2>
+                    <section class="input-fields-info">
+                        <h3>Information</h3>
+                        <p>Money set aside for long-term security, including savings, retirement contributions, and
+                            investments.
+                        </p>
+                    </section>
+
+                    <section class="inputs">
+                        <input type="text" placeholder="Emergency Fund">
+                        <input type="text" placeholder="General Savings">
+                        <input type="text" placeholder="401(k) & IRA">
+                        <input type="text" placeholder="Pension Contributions">
+                        <input type="text" placeholder="Brokerage Accounts">
+                        <input type="text" placeholder="Investments">
+                        <input type="text" placeholder="+ New Field">
+                    </section>
+
+                </section>
+                <section class="Summary">
+                    <h2>Summary</h2>
+                    <p> You are making more than you earn. However, it doesn’t like seem
+                        like you are saving enough money for your future. </p>
+                    <p><strong>Wise-Up</strong>: Cut down on leisure expenses to save at least 10% of your
+                        income for your future. </p>
+                </section>
+
             </section>
         </section>
-    
-        <section id="input-fields">
-            <section class="inputFields">
 
-                <h2>Monthly Income</h2>
-                <section class="input-fields-info">
-                    <h3>Information</h3>
-                    <p>Pick your career to receive an estimate of your monthly income. Input any other sources of income
-                        that
-                        you make.</p>
-                </section>
-    
-                <section class="inputs">
-                    <select class="options">
-                        <option value="placeholder">placeholder</option>
-                        <option value="placeholder">placeholder</option>
-                    </select>
-                    <input type="text" placeholder="Freelance/ Side Income">
-                    <input type="text" placeholder=" + New Field">
-                </section>
-                
-            </section>
-    
-            <section class="hidden">
-                <h2>Student Loans</h2>
-                <section class="input-fields-info">
-                    <h3>Information</h3>
-                    <p>Money you pay each month to repay education-related debt, including loan principal and interest.</p>
-                </section>
-    
-                <section class="inputs">
-                    <input type="text" placeholder="Monthly Payment">
-                    <input type="text" placeholder="Interest Payments">
-                    <input type="text" placeholder="Tuition Payment Plans">
-                    <input type="text" placeholder="Education Credit Card">
-                    <input type="text" placeholder="+ New Field">
-                </section>
-                
-            </section>
-    
-            <section class="hidden">
-                <h2>Housing</h2>
-                <section class="input-fields-info">
-                    <h3>Information</h3>
-                    <p>Costs required to maintain a place to live, such as rent or mortgage payments, insurance, and
-                        housing-related fees.</p>
-                </section>
-                <select>
-                    <!--Carrer Income dropdown will be placed here-->
-                </select>
-                
-                <section class="inputs">
-                    <input type="text" placeholder="Rent">
-                    <input type="text" placeholder="Mortgage">
-                    <input type="text" placeholder="Property Taxes">
-                    <input type="text" placeholder="Home/Renter's Insurance">
-                    <input type="text" placeholder="HOA Fees">
-                    <input type="text" placeholder="Parking/Garage Fees">
-                    <input type="text" placeholder="Electricity/Gas/Water">
-                    <input type="text" placeholder="+ New Field">
-                </section>
-                
-            </section>
-    
-            <section class="hidden">
-                <h2>Essentials</h2>
-                <section class="input-fields-info">
-                    <h3>Information</h3>
-                    <p>Necessary day-to-day expenses like utilities, groceries, insurance, and basic transportation.</p>
-                </section>
-                <select>
-                    <!--Carrer Income dropdown will be placed here-->
-                </select>
-    
-                <section class="inputs">
-                    <input type="text" placeholder="Groceries">
-                    <input type="text" placeholder="Basic Car Maintenance">
-                    <input type="text" placeholder="Internet/Phone">
-                    <input type="text" placeholder="Home/Renter's Insurance">
-                    <input type="text" placeholder="Health Insurance">
-                    <input type="text" placeholder="Car Insurance">
-                    <input type="text" placeholder="Gas/Transit">
-                    <input type="text" placeholder="Life/Disability Insurance">
-                    <input type="text" placeholder="+ New Field">
-                </section>
-                
-            </section>
-    
-            <section class="hidden">
-                <h2>Lifestyle</h2>
-                <section class="input-fields-info">
-                    <h3>Information</h3>
-                    <p>Optional spending that supports enjoyment, comfort, and personal interests, such as dining out,
-                        fitness, and entertainment.</p>
-                </section>
-                <select>
-                    <!--Carrer Income dropdown will be placed here-->
-                </select>
-    
-                <section class="inputs">
-                    <input type="text" placeholder="Pet">
-                    <input type="text" placeholder="Gym/Fitness">
-                    <input type="text" placeholder="Streaming Services">
-                    <input type="text" placeholder="Hobbies">
-                    <input type="text" placeholder="Shopping">
-                    <input type="text" placeholder="Entertainment">
-                    <input type="text" placeholder="Tavel & Vacation">
-                    <input type="text" placeholder="Travel & Vacation">
-                    <input type="text" placeholder="+ New Field">
-                </section>
-                
-            </section>
-    
-            <section class="hidden">
-                <h2>Future-Proofing</h2>
-                <section class="input-fields-info">
-                    <h3>Information</h3>
-                    <p>Money set aside for long-term security, including savings, retirement contributions, and investments.
-                    </p>
-                </section>
-
-                <section class="inputs">
-                    <input type="text" placeholder="Emergency Fund">
-                    <input type="text" placeholder="General Savings">
-                    <input type="text" placeholder="401(k) & IRA">
-                    <input type="text" placeholder="Pension Contributions">
-                    <input type="text" placeholder="Brokerage Accounts">
-                    <input type="text" placeholder="Investments">
-                    <input type="text" placeholder="+ New Field">
-                </section>
-                
-            </section>
-            <section>
-                <h2>Summary</h2>
-                <p> You are making more than you earn. However, it doesn’t like seem
-                    like you are saving enough money for your future. </p>
-                <p><strong>Wise-Up</strong>: Cut down on leisure expenses to save at least 10% of your
-                    income for your future. </p>
-            </section>
-    
+        <section class="Buttons">
+            <!--Be careful of that red lesser sign-->
+            <button class="BackBtn"><- Back</button>
+            <button class="NextBtn">Next -></button>
         </section>
-    </section>
 
-    <button>Next -></button>
-
-
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+    <script src="app.js"></script>
 </body>

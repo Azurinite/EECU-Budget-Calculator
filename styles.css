@@ -1,15 +1,38 @@
 :root{
 --primary-blue:#095AA7;
 --saving-green: #1C9800; 
-
-
-
-
+--light-grey: #EEEEEE;
+--hover-blue: #2383DE;
 }
+
+main {
+    margin: 0px 100px;
+}
+
 nav {
 background-color: var(--primary-blue);
 
 
+}
+
+header section {
+    display: flex;
+    place-content: center;
+    gap: 100px;
+    & p {
+        display: flex;
+        border: 3px solid var(--light-grey);
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        place-content: center;
+        /*Add the line things in between*/
+    }
+}
+
+h1, h2, h3 {
+    font-weight: 100;
 }
 
 * {
@@ -18,34 +41,45 @@ background-color: var(--primary-blue);
 }
 
 #description{
-
-
-
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
 }
 
 
 #description p{
 font-size: 20px;
+margin-bottom: 10px;
+}
 
+#description p:nth-child(2) {
+    font-size: 25px;
+    text-decoration: underline;
+    &::after {
+        content: "⬇️";
+    }
 }
 
 h1{
-font-size: 40px;
+font-size: 50px;
+margin-bottom: 10px;
 }
 
 #mainContent {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 400px auto;
     grid-template-rows: auto;
     gap: 40px;
 }
 
+/* Left side: Budget Calculation */
 #showBudget{
     display: flex;
     flex-direction: column;
     align-items: center;
     color: white;
     background-color: var(--primary-blue);
+    border-radius: 20px;
 }
 
 #NetIncome {
@@ -76,6 +110,11 @@ align-items: center;
 
 .Calculations h3{
 margin-right: 50px;
+}
+
+/* Right Side: Input Fields */
+#input-fields .hidden {
+    display: none;
 }
 
 .input-fields-info{
@@ -122,4 +161,46 @@ margin-right: 50px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+#input-fields .Summary {
+    display: none;
+}
+
+.Buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.NextBtn, .BackBtn {
+    font-weight: bold;
+    margin-top: 50px;
+    cursor: pointer;
+    text-wrap: nowrap;
+    border-radius: 10px;
+    padding: 10px 30px;
+    font-size: 25px;
+    border: 3px solid black;
+
+    &:hover {
+        background-color: var(--hover-blue);
+    }
+}
+
+.NextBtn {
+    background-color: var(--primary-blue);
+    color: white;
+    &:hover {
+        background-color: var(--hover-blue);
+    }
+}
+
+.BackBtn {
+    background-color: white;
+    color: var(--primary-blue);
+    border-color: var(--primary-blue);
+    &:hover {
+        background-color: var(--light-grey);
+    }
 }
