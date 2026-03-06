@@ -16,18 +16,45 @@ background-color: var(--primary-blue);
 }
 
 header section {
+    margin: 2em;
     display: flex;
     place-content: center;
     gap: 100px;
-    & p {
+    & button {
+        font-weight: bold;
         display: flex;
+        background-color: white;
         border: 3px solid var(--light-grey);
         border-radius: 50%;
         width: 60px;
         height: 60px;
-        line-height: 60px;
+        line-height: 55px;
+        font-size: 20px;
         place-content: center;
         /*Add the line things in between*/
+
+        &:not(:first-child)::before {
+            content: "";
+            z-index: -1;
+            width: 6em;
+            border: 5px solid var(--light-grey);
+            position: absolute;
+            transform: translate(-4em, 1em);
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &.active {
+            background-color: var(--primary-blue);
+            color: white;
+            border: 3px solid var(--primary-blue);
+
+            &::before {
+                border-color: var(--primary-blue);
+            }
+        }
     }
 }
 
