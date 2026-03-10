@@ -7,6 +7,9 @@
 
 main {
     margin: 0px 200px;
+    display: flex;
+    flex-direction: column;
+    
 }
 
 nav {
@@ -14,6 +17,8 @@ background-color: var(--primary-blue);
 
 
 }
+
+
 
 header section {
     margin: 2em;
@@ -70,13 +75,17 @@ h1, h2, h3 {
 #description{
     display: flex;
     flex-direction: column;
+    align-self: center;
     gap: 0px;
+    width: 1300px;
+
 }
 
 
 #description p{
 font-size: 30px;
 margin-bottom: 10px;
+
 }
 
 #description p:last-child {
@@ -101,6 +110,7 @@ margin-bottom: 10px;
     grid-template-columns: 400px auto;
     grid-template-rows: auto;
     gap: 40px;
+    justify-content: center;
 }
 
 /* Left side: Budget Calculation */
@@ -111,21 +121,24 @@ margin-bottom: 10px;
     color: white;
     background-color: var(--primary-blue);
     border-radius: 20px;
+    height: 650px;
+
 }
 
 #NetIncome {
 color: black;
 background-color: white;
-padding: 5px 30%;
+padding: 5px 25%;
 border-radius: 10px;
 border: 2px solid black;
 
 }
 #NetIncome p {
 text-align: center;
-font-size: 30px;
+font-size: 45px;
 color: var(--saving-green);
 font-weight: 700;
+line-height: 0%;
 }
 
 #NetIncome h3{ /* Wrapping occurs with NetIncome h3 */
@@ -154,11 +167,17 @@ margin-right: 50px;
     color: white;
     border-radius: 20px;
     padding: 5px;
+    width: 800px;
 
     & > p {
         padding: 10px;
-        font-size: 20px;
+        font-size: 22.5px;
     }
+}
+
+#input-fields {
+    width: 800px;
+
 }
 
 .input-fields-info h3 {
@@ -182,7 +201,9 @@ margin-right: 50px;
 
 .inputs * {
     padding: 20px;
-    border-radius: 20px;;
+    border-radius: 20px;
+    font-size: 22.5px;
+    border: solid 1px;
 }
 
 #input-fields section h2 {
@@ -204,7 +225,10 @@ margin-right: 50px;
 .Buttons {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
+    & > .Backbtn {
+        justify-self: flex-start;
+    }
 }
 
 .Buttons .hidden {
@@ -229,6 +253,7 @@ margin-right: 50px;
 .NextBtn {
     background-color: var(--primary-blue);
     color: white;
+    
     &:hover {
         background-color: var(--hover-blue);
     }
@@ -238,14 +263,8 @@ margin-right: 50px;
     background-color: white;
     color: var(--primary-blue);
     border-color: var(--primary-blue);
+    margin-right: auto;
     &:hover {
         background-color: var(--light-grey);
     }
-}
-
-
-/* Make the placeholder font bigger */
-.options option {
-    font-size: 20px;
-
 }
