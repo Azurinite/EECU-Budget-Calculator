@@ -7,6 +7,7 @@
     <title>Budget Calculator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <header>
         <nav>
@@ -25,8 +26,8 @@
     <main>
         <section id="description">
             <h1>Budget Calculator</h1>
-            <p>Collapse</p>
-            <p>Handling expenses can be challenging, especially after graduation. This budget calculator offers, a
+            <p id="collapse">Collapse</p>
+            <p id="startingText">Handling expenses can be challenging, especially after graduation. This budget calculator offers, a
                 streamlined, simple way to calculate your income after factoring in student loans, living expenses, and
                 saving for your future. All you have to do is fill in the input fields for each category, and we’ll
                 return
@@ -36,18 +37,21 @@
         <section id="mainContent">
             <section id="showBudget">
                 <!-- Pie chart will be here -->
-                <canvas id="budgetChart" role="img" aria-label="Budget breakdown chart"></canvas>
+                <div id="chartStyler">
+                    <canvas id="budgetChart" role="img" aria-label="Budget breakdown chart"></canvas>
+                </div>
+
                 <section id="NetIncome">
                     <h3>Net Income</h3>
-                    <p>$($$$)</p>
+                    <p>$385</p>
                 </section>
 
-                <section class="Calculations">
+                <section id="totalIncome">
                     <h3>Monthly Income</h3>
                     <p>$5,280</p>
                 </section>
 
-                <section>
+                <section id="expenses">
                     <ul>
                         <li>Student Loan $1,350</li>
                         <li>Housing $1,895</li>
@@ -55,11 +59,11 @@
                         <li>Lifestyle $450</li>
                         <li>Future-Proofing $320</li>
                     </ul>
+                </section>
 
-                    <section class="Calculations">
-                        <h3>Monthly Expenses</h3>
-                        <p>$385</p>
-                    </section>
+                <section id="totalExpenses">
+                    <h3>Monthly Expenses</h3>
+                    <p>$385</p>
                 </section>
             </section>
 
@@ -68,7 +72,10 @@
 
                     <h2>Monthly Income</h2>
                     <section class="input-fields-info">
-                        <h3>Information</h3>
+                        <div class="infoTitle">
+                            <img src="eecu-images/eye.png">
+                            <h3>Information</h3>
+                        </div>
                         <p>Pick your career to receive an estimate of your monthly income. Input any other sources of
                             income
                             that
@@ -203,7 +210,7 @@
         <section class="Buttons">
             <!--Be careful of that red lesser sign-->
             <button class="BackBtn hidden"><- Back</button>
-            <button class="NextBtn">Next -></button>
+                    <button class="NextBtn">Next -></button>
         </section>
 
     </main>
