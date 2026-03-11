@@ -177,7 +177,6 @@ margin-right: 50px;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
     gap: 25px;
-    
 }
 
 .inputs * {

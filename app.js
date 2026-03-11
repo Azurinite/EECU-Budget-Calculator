@@ -70,46 +70,45 @@ function sum(inputs) {
     const arr = Array.from(inputs);
     if (arr.length === 0) return 0;
 
-    //const section = arr[0].closest("section");
-    // if (section && section.classList.contains("placeholder")) {
-    //return 0;
-    //}
-    // Only use the above code if you need to filter out an input
+    const section = arr[0].closest("section");
+        if (section && (section.dataset.type === 'income' || section.classList.contains("income"))) {
+            return 0;
+        }
 
     return arr.reduce((total, input) => {
-        const n = Number(input.value)
+            const raw = String(input.value || '').trim();
+            const cleaned = raw.replace(/[^0-9.\-]/g, '');
+            const n = cleaned === '' ? 0 : Number(cleaned);
         return total + (Number.isFinite(n) ? n : 0);
     }, 0)
 }
 const [...sections] = document.querySelectorAll("section");
 const filteredSections = Array.from(sections).filter(element => {
-    // Return for elements that have the specific class 'inputs'
     return element.classList.contains('inputs');
 });
+
 const inputs = filteredSections.map(section => 
-    section.querySelector("input")
+    Array.from(section.querySelectorAll("input"))
 )
-// const sectionInputMap = filteredSections.map(section => {
-//     return {
-//         section: section,
-//         input: section.querySelector("input")
-//     };
-// });
-const canvas = document.querySelector("canvas");
+
+const canvas = document.getElementById("budgetChart") || document.querySelector("canvas");
 let current_chart = null;
 
 function update() {
     current_chart?.destroy();
+    const dataArray = inputs.map(sectionInputs => sum(sectionInputs));
+    console.log('chart data:', dataArray);
+
     current_chart = new Chart(canvas, {
         type: "doughnut",
         data: {
             labels: ["Monthly Income", "Student Loans", "Housing", "Essentials","Lifestyle","Future-Proofing"],
             datasets: [
-                {
-                    label: "Total Expenses",
-                    data: inputs.map(inputs => sum(inputs))
-                }
-            ]
+                    {
+                        label: "Total Expenses",
+                        data: dataArray
+                    }
+                ]
         }
     });
 }
