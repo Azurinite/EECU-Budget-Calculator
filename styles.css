@@ -1,21 +1,21 @@
 :root {
     --primary-blue: #095AA7;
     --saving-green: #1C9800;
+    --debt-red: #CF0000;
     --light-grey: #EEEEEE;
     --hover-blue: #2383DE;
 
     padding: 0px;
     margin: 0px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Rubik', sans-serif;
     /* font used as placeholder for now */
 }
 
 main {
-    margin: 0px 200px;
+    margin: 0px 2em;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 }
 
 nav {
@@ -28,7 +28,7 @@ header section {
     margin: 2em;
     display: flex;
     place-content: center;
-    gap: 7vw;
+    gap: 100px;
 
     & button {
         font-weight: bold;
@@ -82,7 +82,6 @@ h3 {
 #description {
     display: flex;
     flex-direction: column;
-    min-width: 600px;
     gap: 0px;
 }
 
@@ -131,7 +130,6 @@ h1 {
     display: grid;
     grid-template: auto / 1fr 2fr;
     gap: 40px;
-    justify-content: center;
 }
 
 
@@ -147,7 +145,7 @@ h1 {
     color: white;
     background-color: var(--primary-blue);
     border-radius: 20px;
-    min-width: 300px;
+    width: 300px;
     min-height: 650px;
     max-height: 800px;
 }
@@ -173,7 +171,6 @@ canvas {
 }
 
 #NetIncome h3 {
-    /* Wrapping occurs with NetIncome h3 */
     text-wrap: nowrap;
     line-height: 0%;
     font-size: 20px;
@@ -193,16 +190,48 @@ canvas {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    & p, & h3 {
+        font-weight: 700;
+    }
+}
+
+#totalIncome {
+    border-bottom: 2px solid white;
+}
+
+#totalExpenses {
+    border-top: 2px solid white;
 }
 
 #expenses {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+}
 
-    & ul {
-        list-style: none;
-        text-indent: 0px;
+#expenses ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    list-style: none;
+    line-height: 0px;
+    text-wrap: nowrap;
+
+    margin-left: 0px;
+    padding-left: 0px;
+    list-style-position: inside;
+
+    & li {
+        display: flex;
+        justify-content: space-between;
+
+        & .legendItem {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
     }
 }
 
@@ -214,6 +243,10 @@ canvas {
 }
 
 .input-fields-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
     background-color: var(--primary-blue);
     color: white;
     border-radius: 20px;
@@ -273,6 +306,10 @@ canvas {
     display: none;
 }
 
+
+
+/* Next & Back Buttons */
+
 .Buttons {
     display: flex;
     flex-direction: row;
@@ -314,5 +351,28 @@ canvas {
 
     &:hover {
         background-color: var(--light-grey);
+    }
+}
+
+@media screen and (max-width: 1085px) {
+    main {
+        margin: 0 3em;
+    }
+
+    #mainContent {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    /* Left Side */
+    #showBudget {
+        min-width: none;
+    }
+
+    /* Right Side */
+    .inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
     }
 }
