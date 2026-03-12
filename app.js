@@ -17,7 +17,7 @@ let current_form = forms.children[0];
 let current_page = 0;
 
 function renderPage() {
-    // Hide previous form and show new fomr
+    // Hide previous form and show new form
     if (current_form) {
         current_form.classList.add("hidden");
     }
@@ -190,8 +190,11 @@ function updateAll() {
     let totalIncome = 0
 
     const careerSelected = careerDropdown.value
+    console.log(careerSelected)
     if (careerSelected) {
-        const careerSalary = careerSelected
+        const careerSalary = careerSelected.slice(careerSelected.indexOf('$') + 1)
+        careerSalary.replace(",","")
+        console.log(careerSalary)
     }
 
     totalIncome += sum(incomeInputs);
