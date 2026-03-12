@@ -14,6 +14,8 @@ main {
     margin: 0px 200px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 nav {
@@ -21,13 +23,12 @@ nav {
 }
 
 
-
 /* Step Container */
 header section {
     margin: 2em;
     display: flex;
     place-content: center;
-    gap: 100px;
+    gap: 7vw;
 
     & button {
         font-weight: bold;
@@ -37,6 +38,7 @@ header section {
         border-radius: 50%;
         width: 60px;
         height: 60px;
+        aspect-ratio: 1/1;
         line-height: 55px;
         font-size: 20px;
         place-content: center;
@@ -80,9 +82,8 @@ h3 {
 #description {
     display: flex;
     flex-direction: column;
-    align-self: center;
+    min-width: 600px;
     gap: 0px;
-    width: 1300px;
 }
 
 #description p {
@@ -122,6 +123,9 @@ h1 {
     font-size: 50px;
     margin-bottom: 10px;
 }
+
+
+
 
 #mainContent {
     display: grid;
@@ -274,9 +278,7 @@ canvas {
     flex-direction: row;
     justify-content: flex-end;
 
-    &>.Backbtn {
-        justify-self: flex-start;
-    }
+    width: 100%;
 }
 
 .Buttons .hidden {
@@ -293,10 +295,6 @@ canvas {
     padding: 10px 30px;
     font-size: 25px;
     border: 3px solid black;
-
-    &:hover {
-        background-color: var(--hover-blue);
-    }
 }
 
 .NextBtn {
