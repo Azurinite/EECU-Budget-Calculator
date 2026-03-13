@@ -170,16 +170,24 @@ const inputs = filteredSections.map(section =>
     Array.from(section.querySelectorAll("input"))
 );
 
-
-
 // Get income input fields
 const incomeInputs = document.querySelectorAll('#incomeInputs input')
+
+
+
 
 
 // Get the pie chart
 const canvas = document.getElementById("budgetChart") || document.querySelector("canvas");
 let current_chart = null;
 
+// Function for formatting money text
+function dollarFormat(displayer,dollars) {
+    const text = `$${dollars}`;
+    displayer.textContent = text;
+}
+
+// Update showing budget at the left
 function updateAll() {
     current_chart?.destroy();
     // Sum up the inputs in each section to get the total of each section (ex. total of Education, total of Housing)
@@ -190,11 +198,10 @@ function updateAll() {
     let totalIncome = 0
 
     const careerSelected = careerDropdown.value
-    console.log(careerSelected)
     if (careerSelected) {
-        const careerSalary = careerSelected.slice(careerSelected.indexOf('$') + 1)
-        careerSalary.replace(",","")
-        console.log(careerSalary)
+        const careerSalary = 
+            Number(careerSelected.slice(careerSelected.indexOf('$') + 1).replace(/[^0-9.\-]/g, ''));
+        totalIncome += careerSalary;
     }
 
     totalIncome += sum(incomeInputs);
