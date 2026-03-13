@@ -131,6 +131,9 @@ document.addEventListener('DOMContentLoaded', init)
 
 
 // Chart
+const chartContainer = document.querySelector('#chartStyler')
+const chartPlaceholderText = document.querySelector('#chartPlaceholder')
+
 const [...expenseDisplays] = document.querySelectorAll('.expenseDisplay')
 const [...inputFields] = document.querySelectorAll('.inputs')
 
@@ -138,6 +141,22 @@ const totalIncomeDisplay = document.querySelector('#totalIncome p')
 const totalExpenseDisplay = document.querySelector('#totalExpenses p')
 const netIncomeDisplay = document.querySelector('#NetIncome p')
 
+const incomeInputs = document.querySelectorAll('#incomeInputs input')
+
+// Get sections.. this was previously calling EVERY section in the DOM. Personal note if I edit again later
+const [...sections] = document.querySelectorAll("section:not(.income)");
+// Get the inputs of each section
+const filteredSections = Array.from(sections).filter(element => {
+    return element.classList.contains('inputs');
+});
+
+// Get an array... which houses arrays containing each input for each section (ex. all the inputs in education, all the inputs in housing)
+const inputs = filteredSections.map(section =>
+    Array.from(section.querySelectorAll("input"))
+);
+
+
+// Sum the values of all inputs in a category (ex. total in education, total in housing)
 /**
  * @param {NodeListOf<HTMLInputElement>} inputs 
  */
@@ -158,98 +177,178 @@ function sum(inputs) {
     }, 0)
 }
 
-// Get sections.. this was previously calling EVERY section in the DOM. Personal note if I edit again later
-const [...sections] = document.querySelectorAll("section:not(.income)");
-// Get the inputs of each section
-const filteredSections = Array.from(sections).filter(element => {
-    return element.classList.contains('inputs');
-});
+// Function for formatting money text
+function formatMoney(dollars) {
+    // This method converts numbers to have money formatting, apparently
+    const text = dollars.toLocaleString("en-US", {
+        minimumFractionDigits: 2, // Always show cents
+        maximumFractionDigits: 2
+    });
 
-// Get an array... which houses arrays containing each input for each section (ex. all the inputs in education, all the inputs in housing)
-const inputs = filteredSections.map(section =>
-    Array.from(section.querySelectorAll("input"))
-);
+    return `$${text}`;
+}
 
-// Get income input fields
-const incomeInputs = document.querySelectorAll('#incomeInputs input')
+// Calculate taxes on a salary
+function taxSalary(salary) {
+    // Taxes to apply at some point
+    const medicare = 0.0145;
+    const socialSecurity = 0.062;
+    const stateTax = 0.04;
+
+    const progressiveTax = () => {
+        const deductible = 16100;
+        const salAfterDeduct = (salary - deductible)
+
+        const tenPercentThreshold = 12400;
+        const twelvePercentThreshold = 50400;
+
+        let totalAmtTaxed = 0
+
+        const bracket1 = () => {
+            // Get max cash that can be put in the bracket
+            const salInLowBracket = Math.min(salAfterDeduct, tenPercentThreshold);
+            console.log(salInLowBracket)
+
+            const lowTaxRate = 0.1;
+            totalAmtTaxed += salInLowBracket * lowTaxRate;
+        };
+        const bracket2 = () => {
+            // Salary that would be taxed in the second bracket
+            const salToTax = salAfterDeduct - tenPercentThreshold;
+            console.log(salToTax)
+
+            if (salToTax > 0) {
+                // Get max cash that can be put in the bracket
+                const salInMiddleBracket = Math.min(salToTax, twelvePercentThreshold)
+                const midTaxRate = 0.12;
+                totalAmtTaxed += salInMiddleBracket * midTaxRate;
+            }
+        };
+        const bracket3 = () => {
+            const salInHighBracket = salAfterDeduct - twelvePercentThreshold
+            console.log(salInHighBracket)
+
+            if (salInHighBracket > 0) {
+                const highTaxRate = 0.22;
+                totalAmtTaxed += salInHighBracket * highTaxRate;
+            }
+        };
+
+        bracket1();
+        bracket2();
+        bracket3();
+
+        return totalAmtTaxed;
+    };
+
+    // All taxes are applied at the same time
+    const medicareTaxed = salary*medicare;
+    const socialSecurityTaxed = salary*socialSecurity;
+    const stateTaxed = salary*stateTax;
+    const progressiveTaxed = progressiveTax();
+
+    const totalTaxed = (medicareTaxed + socialSecurityTaxed + stateTaxed + progressiveTaxed);
+
+    // Return salary after taxes are taken off
+    return salary - totalTaxed;
+}
 
 
+// Functions for summing & displaying income or expenses
+const getIncome = () => {
+    let totalIncome = 0
 
+    // careerSelected string has occupation name + salary in it
+    const careerSelected = careerDropdown.value;
+    if (careerSelected) {
+        // Grabbing only the numbers in the careerSelected string
+        const careerSalary = Number(careerSelected.replace(/[^0-9.\-]/g, ''));
+        const taxedSalary = taxSalary(careerSalary)
+        totalIncome += taxedSalary;
+    }
+    // Income from other input fields
+    totalIncome += sum(incomeInputs);
 
+    return totalIncome
+}
+
+function getTotalExpenses(spentPerCategory) {
+    // Update shown expense values
+    let totalExpenses = 0;
+    for (const index in expenseDisplays) {
+        const spent = spentPerCategory[index];
+        expenseDisplays[index].textContent = formatMoney(spent);
+        totalExpenses += spent;
+    }
+
+    return totalExpenses
+}
 
 // Get the pie chart
 const canvas = document.getElementById("budgetChart") || document.querySelector("canvas");
 let current_chart = null;
 
-// Function for formatting money text
-function dollarFormat(displayer,dollars) {
-    const text = `$${dollars}`;
-    displayer.textContent = text;
-}
-
 // Update showing budget at the left
 function updateAll() {
-    current_chart?.destroy();
     // Sum up the inputs in each section to get the total of each section (ex. total of Education, total of Housing)
     const dataArray = inputs.map(sectionInputs => sum(sectionInputs));
     console.log('chart data:', dataArray);
 
     // Show income (career dropdown + filling out other fields)
-    let totalIncome = 0
+    let totalIncome = getIncome();
+    totalIncomeDisplay.textContent = formatMoney(totalIncome);
 
-    const careerSelected = careerDropdown.value
-    if (careerSelected) {
-        const careerSalary = 
-            Number(careerSelected.slice(careerSelected.indexOf('$') + 1).replace(/[^0-9.\-]/g, ''));
-        totalIncome += careerSalary;
-    }
-
-    totalIncome += sum(incomeInputs);
-    totalIncomeDisplay.textContent = `$${totalIncome}`;
-
-    // Update shown expense values
-    let totalExpenses = 0;
-    for (const index in expenseDisplays) {
-        const spent = dataArray[index];
-        expenseDisplays[index].textContent = `$${spent}`;
-        totalExpenses += spent;
-    }
-    totalExpenseDisplay.textContent = `$${totalExpenses}`;
+    // Show and update expenses
+    let totalExpenses = getTotalExpenses(dataArray);
+    totalExpenseDisplay.textContent = formatMoney(totalExpenses);
 
     // Show Net Income
     const netIncome = totalIncome - totalExpenses;
     // Change color of net income based on positive/negative profit
     if (netIncome >= 0) {
-        netIncomeDisplay.style.color = 'var(--saving-green)'
-        netIncomeDisplay.textContent = `$${netIncome}`
+        netIncomeDisplay.style.color = 'var(--saving-green)';
+        netIncomeDisplay.textContent = formatMoney(netIncome);
     } else {
         netIncomeDisplay.style.color = 'var(--debt-red)'
-        netIncomeDisplay.textContent = `-$${ Math.abs(netIncome) }`
+        netIncomeDisplay.textContent = `-${ formatMoney(Math.abs(netIncome) )}` // Notice there's a negative sign there
     }
 
+    
     // Update Chart
-    current_chart = new Chart(canvas, {
-        type: "doughnut",
-        data: {
-            labels: ["Student Loans", "Housing", "Essentials", "Lifestyle", "Future-Proofing"],
-            datasets: [{
-                label: "Total Expenses",
-                data: dataArray,
-                backgroundColor: ['#FF4343', '#E943FF', '#FFB743', '#43FFD3', '#5CFF3C']
-            }]
-        },
+    // Show the chart only if user has put in expenses
+    const anyExpensesInput = dataArray.find(expense => expense > 0);
+    if (anyExpensesInput) {
+        chartPlaceholderText.classList.add('hidden')
+        chartContainer.classList.remove('hidden')
 
-        // We'll get the legend (thing representing what colors are what) in HTML/CSS
-        options: {
-            plugins: {
-                legend: {
-                    display: false
-                }
+        // Actually making & updating chart
+        current_chart?.destroy();
+        current_chart = new Chart(canvas, {
+            type: "doughnut",
+            data: {
+                labels: ["Student Loans", "Housing", "Essentials", "Lifestyle", "Future-Proofing"],
+                datasets: [{
+                    label: "Total Expenses",
+                    data: dataArray,
+                    backgroundColor: ['#FF4343', '#E943FF', '#FFB743', '#43FFD3', '#5CFF3C']
+                }]
             },
-            responsive: false,
-            animations: false
-        }
-    });
+    
+            // We'll get the legend (thing representing what colors are what) in HTML/CSS
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                animations: false
+            }
+        });
+    } else {
+        // Hide chart and give placeholder text if user hasn't put in any expenses yet
+        chartPlaceholderText.classList.remove('hidden')
+        chartContainer.classList.add('hidden')
+    }
 }
 
 // Update chart whenever typing in an input field

@@ -4,15 +4,19 @@
     --debt-red: #CF0000;
     --light-grey: #EEEEEE;
     --hover-blue: #2383DE;
-
-    padding: 0px;
-    margin: 0px;
     font-family: 'Rubik', sans-serif;
     /* font used as placeholder for now */
 }
 
+html, body {
+    padding: 0px;
+    margin: 0px;
+    /* Extra scrolling space at bottom of page */
+    margin-bottom: 25px;
+}
+
 main {
-    margin: 0px 2em;
+    margin: 0px 150px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,12 +24,21 @@ main {
 
 nav {
     background-color: var(--primary-blue);
+    & img {
+        padding: 10px 0px;
+        margin-left: 30px;
+    }
+}
+
+button, input, #collapse { 
+    cursor: pointer;
 }
 
 
 /* Step Container */
 header section {
     margin: 2em;
+    margin-bottom: 75px;
     display: flex;
     place-content: center;
     gap: 100px;
@@ -128,8 +141,8 @@ h1 {
 
 #mainContent {
     display: grid;
-    grid-template: auto / 1fr 2fr;
-    gap: 40px;
+    grid-template: auto / auto 1fr;
+    gap: 50px;
 }
 
 
@@ -145,19 +158,38 @@ h1 {
     color: white;
     background-color: var(--primary-blue);
     border-radius: 20px;
-    width: 300px;
+    min-width: 300px;
+    max-width: 350px;
     min-height: 650px;
-    max-height: 800px;
+}
+
+#chartSpace {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#chartSpace .hidden {
+    display: none;
+}
+
+#chartSpace p:not(.hidden) {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 40px;
 }
 
 /* chart */
-canvas {
-    --chart-size: 50px;
-    width: var(--chart-size);
-    height: var(--chart-size);
+#chartStyler {
+    --chart-size: 100%;
+    max-width: var(--chart-size);
+    max-height: var(--chart-size);
 
-    margin-bottom: 20px;
+    & canvas:not(.hidden) {
+        margin-bottom: 20px;
+    }
 }
+
 
 #NetIncome {
     display: flex;
@@ -174,6 +206,8 @@ canvas {
     text-wrap: nowrap;
     line-height: 0%;
     font-size: 20px;
+    margin: 20px;
+    margin-bottom: 0px;
 }
 
 #NetIncome p {
@@ -193,6 +227,7 @@ canvas {
 
     & p, & h3 {
         font-weight: 700;
+        font-size: 20px;
     }
 }
 
@@ -213,7 +248,7 @@ canvas {
 #expenses ul {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1em;
 
     list-style: none;
     line-height: 0px;
@@ -226,6 +261,7 @@ canvas {
     & li {
         display: flex;
         justify-content: space-between;
+        font-size: 1.15em;
 
         & .legendItem {
             display: flex;
@@ -250,11 +286,12 @@ canvas {
     background-color: var(--primary-blue);
     color: white;
     border-radius: 20px;
-    padding: 5px;
+    padding: 12.5px;
 
     &>p {
         padding: 0px 10px;
         font-size: 22.5px;
+        margin: 10px 0px;
     }
 }
 
@@ -278,7 +315,7 @@ canvas {
 /* fix <p> or info to center */
 
 #input-fields section h2 {
-    font-size: 40px;
+    font-size: 45px;
     line-height: 0px;
 }
 
@@ -296,7 +333,7 @@ canvas {
 }
 
 .inputs * {
-    padding: 20px;
+    padding: 20px 0px 20px 20px;
     border-radius: 20px;
     font-size: 22.5px;
     border: solid 1px;
@@ -304,6 +341,44 @@ canvas {
 
 #input-fields .Summary {
     display: none;
+}
+
+
+
+/* Summary Page */
+#summary .hidden {
+    display: none;
+}
+
+#summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#summary h2 {
+    font-size: 50px;
+    align-self: flex-start;
+}
+
+#summary p {
+    font-size: 35px;
+}
+
+#summary button {
+    font-weight: bold;
+    margin-top: 200px;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 30px;
+    border: 3px solid black;
+
+    background-color: var(--primary-blue);
+    color: white;
+
+    &:hover {
+        background-color: var(--hover-blue);
+    }
 }
 
 
@@ -326,7 +401,6 @@ canvas {
 .BackBtn {
     font-weight: bold;
     margin-top: 50px;
-    cursor: pointer;
     text-wrap: nowrap;
     border-radius: 10px;
     padding: 10px 30px;
@@ -354,19 +428,34 @@ canvas {
     }
 }
 
-@media screen and (max-width: 1085px) {
+@media screen and (max-width: 1400px) {
     main {
-        margin: 0 3em;
+        margin: 0 50px;
     }
+}
+
+@media screen and (max-width: 1120px) {
+    main {
+        margin: 0 10%;
+    }
+
+    /* Nav bar */
+    header section {
+        width: 100%;
+    }
+
 
     #mainContent {
         display: flex;
         flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
     }
 
     /* Left Side */
     #showBudget {
         min-width: none;
+        max-width: none;
     }
 
     /* Right Side */
@@ -375,4 +464,6 @@ canvas {
         flex-direction: column;
         gap: 25px;
     }
+
+    /* Buttons */
 }

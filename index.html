@@ -39,9 +39,12 @@
         <section id="mainContent">
             <section id="showBudget">
                 <!-- Pie chart will be here -->
-                <div id="chartStyler">
-                    <canvas id="budgetChart" role="img" aria-label="Budget breakdown chart"></canvas>
-                </div>
+                <section id="chartSpace">
+                    <p id="chartPlaceholder">Input expenses to see a chart of how your budget is split!</p>
+                    <div id="chartStyler" class="hidden">
+                        <canvas id="budgetChart" role="img" aria-label="Budget breakdown chart"></canvas>
+                    </div>
+                </section>
 
                 <section id="NetIncome">
                     <h3>Net Income</h3>
@@ -183,7 +186,6 @@
                         <input type="number" placeholder="Groceries">
                         <input type="number" placeholder="Basic Car Maintenance">
                         <input type="number" placeholder="Internet/Phone">
-                        <input type="number" placeholder="Home/Renter's Insurance">
                         <input type="number" placeholder="Health Insurance">
                         <input type="number" placeholder="Car Insurance">
                         <input type="number" placeholder="Gas/Transit">
@@ -244,12 +246,30 @@
 
                 </section>
 
-                <section id="Summary" class="hidden">
+                <section id="summary" class="hidden">
                     <h2>Summary</h2>
-                    <p id="observation"> You are making more than you earn. However, it doesn’t like seem
-                        like you are saving enough money for your future. </p>
-                    <p id="wiseUp"><strong>Wise-Up</strong>: Cut down on leisure expenses to save at least 10% of your
-                        income for your future. </p>
+
+                    <section id="savingSurplus">
+                        <p id="observation"> Congratulations! You are earning more than you spend and are saving enough
+                            for your future. </p>
+                    </section>
+
+                    <section id="needToSave" class="hidden">
+                        <p id="observation"> You are making more than you earn. However, it doesn&apos;t like seem
+                            like you are saving enough money for your future. </p>
+                        <p id="wiseUp"><strong>Wise-Up</strong>: Cut down on leisure expenses to save at least 10% of
+                            your
+                            income for your future. </p>
+                    </section>
+
+                    <section id="netLoss" class="hidden">
+                        <p id="observation"> It seems like you are losing more money than you earn. </p>
+                        <p id="wiseUp"><strong>Wise-Up</strong>: Cut down on leisure expenses to save at least 10% of
+                            your
+                            income for your future. </p>
+                    </section>
+
+                    <button id="returnToFirstPage">Return To First Page</button>
                 </section>
 
             </section>
