@@ -5,10 +5,8 @@ const bigParagraph = document.querySelector('#startingText')
 const savedInputData = loadData("Data") || []
 
 // LocalStorage saving functions, so I don't accidentally forget to JSON.parse()
-function saveData(keyName,data) {
-    if (keyName && data) {
-        localStorage.setItem(keyName, JSON.stringify(data))
-    }
+function saveData(keyName, data) {
+    localStorage.setItem(keyName, JSON.stringify(data))
 }
 function loadData(keyName) {
     try {
@@ -29,6 +27,7 @@ const step_jump = document.querySelector('.step-container');
 const forms = document.querySelector('#input-fields');
 const nextButton = document.querySelector('.NextBtn');
 const backButton = document.querySelector('.BackBtn');
+const returnToFirstPage = document.querySelector('#returnToFirstPage')
 
 let current_form = forms.children[0];
 let current_page = 0;
@@ -90,6 +89,11 @@ backButton.addEventListener("click", () => {
     renderPage();
 })
 
+returnToFirstPage.addEventListener("click", () => {
+    current_page = 0;
+    renderPage();
+})
+
 
 
 // Fetch API for income
@@ -117,6 +121,7 @@ function buildList(jobs = []) {
     for (const { Occupation, Salary } of jobs) {
         // Make option element, store occupation name and salarly seperately
         const option = document.createElement('option');
+        option.value = `${Occupation}: ${formatter.format(Salary)}`
 
         const occ = document.createElement('div');
         occ.textContent = `${Occupation}: `;
@@ -140,6 +145,9 @@ async function init() {
         const jobs = await fetchJson(url);
         // Append the array of options to the dropdown
         careerDropdown.append(buildList(jobs));
+        // We're loading the saved career value here cuz anywhere else will cause the code to run before the options load...
+        careerDropdown.selectedIndex = loadData("careerIndex")
+        updateAll();
     } catch (err) {
         // If there's an error... the page will tell you. Whoops
         root.style.color = 'red';
@@ -173,6 +181,52 @@ const filteredSections = Array.from(sections).filter(element => {
 const inputs = filteredSections.map(section =>
     Array.from(section.querySelectorAll("input"))
 );
+
+let preloadedInputValues = loadData("inputValues");
+console.log(preloadedInputValues);
+// Check if there were input values saved (weird way to check, I know)
+
+function saveInputValues() {
+    preloadedInputValues = [];
+    // FOR INCOME
+    // Dropdown
+    const career = careerDropdown.selectedIndex;
+    saveData("careerIndex", career)
+
+    // Inputs
+    const incomeSection = []
+    preloadedInputValues.push(incomeSection)
+    for (const input of incomeInputs) {
+        incomeSection.push(input.value || '')
+    };
+
+    // FOR EXPENSES
+    // Make a fresh slate of input values to save if not
+    inputs.forEach((inputSection, sectionIndex) => {
+        const valuesInSection = []
+        preloadedInputValues.push(valuesInSection);
+        for (const input of inputSection) {
+            // Set to seen input value, or to an empty string
+            valuesInSection.push(input.value || '');
+        }
+    });
+    saveData("inputValues", preloadedInputValues);
+}
+
+// Load all the saved input values when the website loads
+
+if (preloadedInputValues) {
+    preloadedInputValues.forEach((inputSection, sectionIndex) => {
+        inputSection.forEach((inputValue, inputIndex) => {
+            // I know this is really scuffed... this is to account for income inputs and normal inputs being split up
+            if (sectionIndex == 0) {
+                incomeInputs[inputIndex].value = inputValue || ''
+            } else {
+                inputs[sectionIndex - 1][inputIndex].value = inputValue || '';
+            }
+        })
+    })
+}
 
 // Sum the values of all inputs in a category (ex. total in education, total in housing)
 /**
@@ -259,9 +313,9 @@ function taxSalary(salary) {
     };
 
     // All taxes are applied at the same time
-    const medicareTaxed = salary*medicare;
-    const socialSecurityTaxed = salary*socialSecurity;
-    const stateTaxed = salary*stateTax;
+    const medicareTaxed = salary * medicare;
+    const socialSecurityTaxed = salary * socialSecurity;
+    const stateTaxed = salary * stateTax;
     const progressiveTaxed = progressiveTax();
 
     const totalTaxed = (medicareTaxed + socialSecurityTaxed + stateTaxed + progressiveTaxed);
@@ -278,8 +332,8 @@ const getIncome = () => {
     // careerSelected string has occupation name + salary in it
     const careerSelected = careerDropdown.value;
     if (careerSelected) {
-        // Grabbing only the numbers in the careerSelected string
-        const careerSalary = Number(careerSelected.replace(/[^0-9.\-]/g, ''));
+        // Grabbing only the numbers in the salary part of the careerSelected string
+        const careerSalary = Number(careerSelected.split('$')[1].replace(/[^0-9.\-]/g, ''));
         const taxedSalary = taxSalary(careerSalary)
         totalIncome += taxedSalary;
     }
@@ -309,7 +363,6 @@ let current_chart = null;
 function updateAll() {
     // Sum up the inputs in each section to get the total of each section (ex. total of Education, total of Housing)
     const dataArray = inputs.map(sectionInputs => sum(sectionInputs));
-    console.log('chart data:', dataArray);
 
     // Show income (career dropdown + filling out other fields)
     let totalIncome = getIncome();
@@ -327,10 +380,10 @@ function updateAll() {
         netIncomeDisplay.textContent = formatMoney(netIncome);
     } else {
         netIncomeDisplay.style.color = 'var(--debt-red)'
-        netIncomeDisplay.textContent = `-${ formatMoney(Math.abs(netIncome) )}` // Notice there's a negative sign there
+        netIncomeDisplay.textContent = `-${formatMoney(Math.abs(netIncome))}` // Notice there's a negative sign there
     }
 
-    
+
     // Update Chart
     // Show the chart only if user has put in expenses
     const anyExpensesInput = dataArray.find(expense => expense > 0);
@@ -350,7 +403,7 @@ function updateAll() {
                     backgroundColor: ['#FF4343', '#E943FF', '#FFB743', '#43FFD3', '#5CFF3C']
                 }]
             },
-    
+
             // We'll get the legend (thing representing what colors are what) in HTML/CSS
             options: {
                 plugins: {
@@ -371,9 +424,9 @@ function updateAll() {
 // Update chart whenever typing in an input field
 document.body.addEventListener("input", () => {
     updateAll();
+    saveInputValues();
 });
 document.body.addEventListener("select", () => {
     updateAll();
+    saveInputValues();
 });
-
-updateAll();
