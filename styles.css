@@ -8,11 +8,12 @@
     /* font used as placeholder for now */
 }
 
-html, body {
+html,
+body {
     padding: 0px;
     margin: 0px;
     /* Extra scrolling space at bottom of page */
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 main {
@@ -24,14 +25,30 @@ main {
 
 nav {
     background-color: var(--primary-blue);
+
     & img {
+        width: 150px;
         padding: 10px 0px;
         margin-left: 30px;
     }
 }
 
-button, input, #collapse { 
+button,
+input,
+#collapse {
     cursor: pointer;
+}
+
+p {
+    font-weight: 300;
+}
+
+h1,
+h2,
+h3 {
+    font-weight: 500;
+    line-height: 0px;
+    text-wrap: nowrap;
 }
 
 
@@ -82,16 +99,7 @@ header section {
     }
 }
 
-
 /* Headers and description text at start */
-h1,
-h2,
-h3 {
-    font-weight: 100;
-    line-height: 0px;
-    text-wrap: nowrap;
-}
-
 #description {
     display: flex;
     flex-direction: column;
@@ -101,6 +109,7 @@ h3 {
 #description p {
     font-size: 30px;
     margin-bottom: 10px;
+    margin-top: 7.5px;
 
     &.hidden {
         display: none;
@@ -112,7 +121,8 @@ h3 {
     font-size: 35px;
     text-decoration: underline;
 
-    line-height: 50px;
+    line-height: 30px;
+    margin-top: 40px;
 
     &::after {
         content: " ⬇";
@@ -120,6 +130,7 @@ h3 {
 
     &.collapse {
         margin-bottom: 50px;
+
         &::after {
             content: " →";
         }
@@ -141,11 +152,9 @@ h1 {
 
 #mainContent {
     display: grid;
-    grid-template: auto / auto 1fr;
-    gap: 50px;
+    grid-template: auto auto / auto 1fr;
+    column-gap: 50px;
 }
-
-
 
 /* Left side: Budget Calculation */
 #showBudget {
@@ -153,14 +162,13 @@ h1 {
     flex-direction: column;
     align-items: stretch;
 
-    padding: 30px;
+    padding: 15px 30px;
 
     color: white;
     background-color: var(--primary-blue);
     border-radius: 20px;
-    min-width: 300px;
-    max-width: 350px;
-    min-height: 650px;
+    min-width: 200px;
+    max-width: 275px;
 }
 
 #chartSpace {
@@ -176,17 +184,20 @@ h1 {
 #chartSpace p:not(.hidden) {
     text-align: center;
     font-size: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 /* chart */
 #chartStyler {
-    --chart-size: 100%;
+    --chart-size: 90%;
     max-width: var(--chart-size);
     max-height: var(--chart-size);
 
     & canvas:not(.hidden) {
         margin-bottom: 20px;
+        width: var(--chart-size);
+        height: var(--chart-size);
     }
 }
 
@@ -205,15 +216,15 @@ h1 {
 #NetIncome h3 {
     text-wrap: nowrap;
     line-height: 0%;
-    font-size: 20px;
-    margin: 20px;
+    font-size: 18px;
     margin-bottom: 0px;
 }
 
 #NetIncome p {
     /* Big green text */
     text-align: center;
-    font-size: 45px;
+    font-size: 35px;
+    margin-bottom: 27.5px;
     color: var(--saving-green);
     font-weight: 700;
     line-height: 0%;
@@ -225,9 +236,15 @@ h1 {
     justify-content: space-between;
     align-items: center;
 
-    & p, & h3 {
+    & p,
+    & h3 {
         font-weight: 700;
-        font-size: 20px;
+        font-size: 17px;
+        line-height: 5px;
+    }
+
+    & p {
+        margin-left: 12px;
     }
 }
 
@@ -248,7 +265,6 @@ h1 {
 #expenses ul {
     display: flex;
     flex-direction: column;
-    gap: 1em;
 
     list-style: none;
     line-height: 0px;
@@ -263,10 +279,20 @@ h1 {
         justify-content: space-between;
         font-size: 1.15em;
 
+        & p {
+            margin: 16px 0px;
+        }
+
         & .legendItem {
             display: flex;
             justify-content: space-between;
-            gap: 15px;
+            align-items: center;
+            gap: 8px;
+
+            & img {
+                width: 20px;
+                height: 20px
+            }
         }
     }
 }
@@ -274,6 +300,7 @@ h1 {
 
 
 /* Right Side: Input Fields */
+
 #input-fields .hidden {
     display: none;
 }
@@ -298,7 +325,7 @@ h1 {
 .input-fields-info .infoTitle {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 10px;
     font-size: 25px;
     line-height: 0px;
 
@@ -317,6 +344,7 @@ h1 {
 #input-fields section h2 {
     font-size: 45px;
     line-height: 0px;
+    margin-bottom: 20px;
 }
 
 #input-fields>section {
@@ -329,14 +357,16 @@ h1 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
-    gap: 25px;
+    gap: 15px;
 }
 
 .inputs * {
-    padding: 20px 0px 20px 20px;
+    padding: 15px 0px;
     border-radius: 20px;
     font-size: 22.5px;
+    text-indent: 20px;
     border: solid 1px;
+    width: 100%;
 }
 
 #input-fields .Summary {
@@ -386,6 +416,8 @@ h1 {
 /* Next & Back Buttons */
 
 .Buttons {
+    grid-area: 2 / 1 / 2 / 3;
+
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -400,7 +432,7 @@ h1 {
 .NextBtn,
 .BackBtn {
     font-weight: bold;
-    margin-top: 50px;
+    margin-top: 20px;
     text-wrap: nowrap;
     border-radius: 10px;
     padding: 10px 30px;
@@ -428,42 +460,241 @@ h1 {
     }
 }
 
-@media screen and (max-width: 1400px) {
+/* Tablet? Moreso to avoid cutting off text and strange margins */
+@media screen and (max-width: 1230px) {
     main {
         margin: 0 50px;
     }
+
+    /* Nav Bar */
+    header section {
+        margin: 2em;
+        margin-bottom: 45px;
+        gap: 60px;
+    
+        & button {
+            width: 55px;
+            height: 55px;
+            aspect-ratio: 1/1;
+            line-height: 50px;
+            font-size: 25px;
+
+            /*Add the line things in between*/
+            &:not(:first-child)::before {
+                content: "";
+                width: 3em;
+                border: 5px solid var(--light-grey);
+                transform: translate(-2em, 0.75em);
+            }
+        }
+    }
+
+    /* Left Side */
+    #showBudget {
+        gap: 5px;
+        border-radius: 15px;
+
+        max-width: 225px;
+    }
+
+    #totalIncome,
+    #totalExpenses {
+        & p,
+        & h3 {
+            font-weight: 700;
+            font-size: 15px;
+            line-height: 5px;
+        }
+    }
+
+    #expenses ul {
+        & li {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95em;
+
+            & p {
+                margin: 18px 0px;
+            }
+
+            & .legendItem {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 8px;
+
+                & img {
+                    width: 20px;
+                    height: 20px
+                }
+            }
+        }
+    }
+
+    /* Right Side */
+    .input-fields-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        background-color: var(--primary-blue);
+        color: white;
+        border-radius: 15px;
+        padding: 10px;
+
+        &>p {
+            padding: 0px 10px;
+            font-size: 20px;
+            margin: 10px 0px;
+        }
+    }
+
+    .input-fields-info .infoTitle {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 22.5px;
+        line-height: 0px;
+
+        margin-left: 10px;
+        margin-bottom: 0px;
+
+        & img {
+            --eye-size: 40px;
+            width: var(--eye-size);
+            height: var(--eye-size);
+        }
+    }
+
+    .inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .inputs * {
+        padding: 10px 0px;
+        border-radius: 15px;
+        text-indent: 15px;
+        font-size: 20px;
+    }
 }
 
-@media screen and (max-width: 1120px) {
+/* Phone */
+@media screen and (max-width: 768px) {
     main {
         margin: 0 10%;
     }
 
     /* Nav bar */
     header section {
-        width: 100%;
+        margin: 2em;
+        margin-bottom: 45px;
+        gap: 30px;
+    
+        & button {
+            width: 45px;
+            height: 45px;
+            aspect-ratio: 1/1;
+            line-height: 40px;
+            font-size: 22.5px;
+
+            /*Add the line things in between*/
+            &:not(:first-child)::before {
+                content: "";
+                width: 3em;
+                border: 5px solid var(--light-grey);
+                transform: translate(-2em, 0.65em);
+            }
+        }
     }
 
 
     #mainContent {
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
+        gap: 50px;
     }
 
     /* Left Side */
     #showBudget {
+        order: 2;
         min-width: none;
         max-width: none;
+        width: 90%;
+    }
+
+    #NetIncome h3 {
+        text-wrap: nowrap;
+        line-height: 0%;
+        font-size: 25px;
+        margin-bottom: 0px;
+    }
+    
+    #NetIncome p {
+        /* Big green text */
+        text-align: center;
+        font-size: 45px;
+        margin-bottom: 35px;
+        color: var(--saving-green);
+        font-weight: 700;
+        line-height: 0%;
+    }
+
+    #totalIncome,
+    #totalExpenses {
+        & p,
+        & h3 {
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 5px;
+        }
+    }
+
+    #expenses ul {
+        & li {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3em;
+
+            & p {
+                margin: 18px 0px;
+            }
+
+            & .legendItem {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 8px;
+
+                & img {
+                    width: 20px;
+                    height: 20px
+                }
+            }
+        }
     }
 
     /* Right Side */
+    #input-fields {
+        order: 0;
+    }
+
     .inputs {
         display: flex;
         flex-direction: column;
-        gap: 25px;
+        gap: 10px;
     }
 
     /* Buttons */
+    .Buttons {
+        order: 1;
+    }
+
+    .NextBtn, .BackBtn {
+        margin-top: 0px;
+        border-radius: 15px;
+    }
 }

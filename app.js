@@ -2,6 +2,23 @@
 const collapse = document.querySelector('#collapse')
 const bigParagraph = document.querySelector('#startingText')
 
+const savedInputData = loadData("Data") || []
+
+// LocalStorage saving functions, so I don't accidentally forget to JSON.parse()
+function saveData(keyName,data) {
+    if (keyName && data) {
+        localStorage.setItem(keyName, JSON.stringify(data))
+    }
+}
+function loadData(keyName) {
+    try {
+        return JSON.parse(localStorage.getItem(keyName))
+    } catch (err) {
+        console.log("Returned empty table: " + err)
+        return []
+    }
+}
+
 collapse.addEventListener("click", () => {
     collapse.classList.toggle("collapse")
     bigParagraph.classList.toggle("hidden")
@@ -48,7 +65,11 @@ function renderPage() {
     else {
         nextButton.classList.remove("hidden");
     }
+
+    // Scroll page to inputs
+    document.querySelector('.Buttons').scrollIntoView({ block: "end", behavior: 'smooth' });
 }
+
 for (const step of step_jump.children) {
     step.addEventListener("click", () => {
 
@@ -143,24 +164,20 @@ const netIncomeDisplay = document.querySelector('#NetIncome p')
 
 const incomeInputs = document.querySelectorAll('#incomeInputs input')
 
-// Get sections.. this was previously calling EVERY section in the DOM. Personal note if I edit again later
+// Get sections housing expense input fields
 const [...sections] = document.querySelectorAll("section:not(.income)");
-// Get the inputs of each section
 const filteredSections = Array.from(sections).filter(element => {
     return element.classList.contains('inputs');
 });
-
 // Get an array... which houses arrays containing each input for each section (ex. all the inputs in education, all the inputs in housing)
 const inputs = filteredSections.map(section =>
     Array.from(section.querySelectorAll("input"))
 );
 
-
 // Sum the values of all inputs in a category (ex. total in education, total in housing)
 /**
  * @param {NodeListOf<HTMLInputElement>} inputs 
  */
-
 function sum(inputs) {
     const arr = Array.from(inputs);
     if (arr.length === 0) return 0;
