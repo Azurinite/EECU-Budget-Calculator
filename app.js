@@ -189,9 +189,9 @@ function getTax(salary) {
     const socialSecurity = 0.062;
     const stateTax = 0.04;
 
-    const progressiveTax = () => {
-        const deductible = 16100;
-        const taxableSal = Math.max(0, (salary - deductible));
+    const progressiveTax = (givenSal) => {
+        const deductible = 16100/12; // Yearly deductible divided by 12 to get monthly
+        const taxableSal = Math.max(0, (givenSal - deductible));
 
         const firstBracketMax = 12400;
         const secondBracketMax = 50400;
@@ -222,7 +222,8 @@ function getTax(salary) {
     const medicareTaxed = salary * medicare;
     const socialSecurityTaxed = salary * socialSecurity;
     const stateTaxed = salary * stateTax;
-    const progressiveTaxed = progressiveTax();
+    const progressiveTaxed = progressiveTax(salary);
+    console.log(progressiveTaxed)
 
     const totalTaxed = (medicareTaxed + socialSecurityTaxed + stateTaxed + progressiveTaxed);
 
