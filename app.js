@@ -1,16 +1,22 @@
 // Collapse starting text
-const collapse = document.querySelector('#collapse')
-const bigParagraph = document.querySelector('#startingText')
+const collapse = document.querySelector('#collapse');
+const bigParagraph = document.querySelector('#startingText');
 
 // Step navigation
 const step_jump = document.querySelector('.step-container');
 const forms = document.querySelector('#input-fields');
 const nextButton = document.querySelector('.NextBtn');
 const backButton = document.querySelector('.BackBtn');
-const returnToFirstPage = document.querySelector('#returnToFirstPage')
+const returnToFirstPage = document.querySelector('#returnToFirstPage');
 
 let current_form = forms.children[0];
 let current_page = 0;
+
+// Summary Page
+const adviceList = document.querySelectorAll('.advice');
+const adviceSurplus = document.querySelector('#savingSurplus');
+const adviceNeedToSave = document.querySelector('#needToSave');
+const adviceNetLoss = document.querySelector('#netLoss');
 
 // Input Fields and Expense Displays
 const [...sections] = document.querySelectorAll("section:not(.income)");
@@ -20,25 +26,25 @@ const filteredSections = Array.from(sections).filter(element => {
 const inputs = filteredSections.map(section =>
     Array.from(section.querySelectorAll("input"))
 );
-const [...incomeInputs] = document.querySelectorAll('#incomeInputs input')
-const [...inputFields] = document.querySelectorAll('.inputs')
+const [...incomeInputs] = document.querySelectorAll('#incomeInputs input');
+const [...inputFields] = document.querySelectorAll('.inputs');
 
-const [...expenseDisplays] = document.querySelectorAll('.expenseDisplay')
-const totalIncomeDisplay = document.querySelector('#totalIncome p')
-const totalExpenseDisplay = document.querySelector('#totalExpenses p')
-const netIncomeDisplay = document.querySelector('#NetIncome p')
+const [...expenseDisplays] = document.querySelectorAll('.expenseDisplay');
+const totalIncomeDisplay = document.querySelector('#totalIncome p');
+const totalExpenseDisplay = document.querySelector('#totalExpenses p');
+const netIncomeDisplay = document.querySelector('#NetIncome p');
 
 // Stuff for Fetch API
 // Fetch API for income
-const careerDropdown = document.querySelector("#careerDropdown")
+const careerDropdown = document.querySelector("#careerDropdown");
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
 });
 
 // Chart Stuff
-const chartContainer = document.querySelector('#chartStyler')
-const chartPlaceholderText = document.querySelector('#chartPlaceholder')
+const chartContainer = document.querySelector('#chartStyler');
+const chartPlaceholderText = document.querySelector('#chartPlaceholder');
 const canvas = document.getElementById("budgetChart") || document.querySelector("canvas");
 let current_chart = null;
 
@@ -46,7 +52,7 @@ let preloadedInputValues = loadData("inputValues");
 console.log(preloadedInputValues);
 
 // LocalStorage
-const savedInputData = loadData("Data") || []
+const savedInputData = loadData("Data") || [];
 
 
 
@@ -300,17 +306,17 @@ function updateAll() {
         netIncomeDisplay.style.color = 'var(--saving-green)';
         netIncomeDisplay.textContent = formatMoney(netIncome);
     } else {
-        netIncomeDisplay.style.color = 'var(--debt-red)'
-        netIncomeDisplay.textContent = `-${formatMoney(Math.abs(netIncome))}` // Notice there's a negative sign there
-    }
+        netIncomeDisplay.style.color = 'var(--debt-red)';
+        netIncomeDisplay.textContent = `-${formatMoney(Math.abs(netIncome))}`; // Notice there's a negative sign there
+    };
 
 
     // Update Chart
     // Show the chart only if user has put in expenses
     const anyExpensesInput = dataArray.find(expense => expense > 0);
     if (anyExpensesInput) {
-        chartPlaceholderText.classList.add('hidden')
-        chartContainer.classList.remove('hidden')
+        chartPlaceholderText.classList.add('hidden');
+        chartContainer.classList.remove('hidden');
 
         // Actually making & updating chart
         current_chart?.destroy();
@@ -337,8 +343,27 @@ function updateAll() {
         });
     } else {
         // Hide chart and give placeholder text if user hasn't put in any expenses yet
-        chartPlaceholderText.classList.remove('hidden')
-        chartContainer.classList.add('hidden')
+        chartPlaceholderText.classList.remove('hidden');
+        chartContainer.classList.add('hidden');
+    }
+
+    // Summary Page
+    const futureSavings = dataArray[4];
+    console.log(futureSavings)
+    for (const advice of adviceList) {
+        advice.classList.add('hidden');
+    }
+
+    // Show advice depending on net income status
+    if (netIncome > 0) {
+        const percentInSavings = (futureSavings/totalExpenses)*100;
+        if (percentInSavings < 10) {
+            adviceNeedToSave.classList.remove('hidden');
+        } else {
+            adviceSurplus.classList.remove('hidden');
+        }
+    } else {
+        adviceNetLoss.classList.remove('hidden');
     }
 }
 
