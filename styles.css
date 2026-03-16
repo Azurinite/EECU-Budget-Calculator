@@ -178,8 +178,7 @@ h1 {
     color: white;
     background-color: var(--primary-blue);
     border-radius: 20px;
-    min-width: 200px;
-    max-width: 275px;
+    width: 225px;
     align-self: start;
 }
 
@@ -202,7 +201,7 @@ h1 {
 
 /* chart */
 #chartStyler {
-    --chart-size: 90%;
+    --chart-size: 95%;
     max-width: var(--chart-size);
     max-height: var(--chart-size);
 
