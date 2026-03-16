@@ -130,14 +130,20 @@ header section {
     margin-top: 40px;
 
     &::after {
-        content: " ▼";
+        content: "▼";
+        display: inline-block;
+        padding-left: 10px;
+        text-decoration: none;
     }
 
     &.collapse {
         margin-bottom: 50px;
 
         &::after {
-            content: " ➤";
+            content: "➤";
+            display: inline-block;
+            padding-left: 10px;
+            text-decoration: none;
         }
     }
 }
