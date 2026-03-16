@@ -125,14 +125,14 @@ header section {
     margin-top: 40px;
 
     &::after {
-        content: " ⬇";
+        content: " ▼";
     }
 
     &.collapse {
         margin-bottom: 50px;
 
         &::after {
-            content: " →";
+            content: " ➤";
         }
     }
 }
