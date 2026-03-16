@@ -40,7 +40,7 @@ input,
 }
 
 p {
-    font-weight: 300;
+    font-weight: 100;
 }
 
 h1,
@@ -49,6 +49,10 @@ h3 {
     font-weight: 500;
     line-height: 0px;
     text-wrap: nowrap;
+}
+
+strong {
+    font-weight: 700;
 }
 
 
@@ -103,6 +107,7 @@ header section {
 #description {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 0px;
 }
 
@@ -169,6 +174,7 @@ h1 {
     border-radius: 20px;
     min-width: 200px;
     max-width: 275px;
+    align-self: start;
 }
 
 #chartSpace {
@@ -183,7 +189,7 @@ h1 {
 
 #chartSpace p:not(.hidden) {
     text-align: center;
-    font-size: 30px;
+    font-size: 32.5px;
     margin-bottom: 20px;
     margin-top: 10px;
 }
@@ -301,6 +307,37 @@ h1 {
 
 /* Right Side: Input Fields */
 
+/* Tax Info on income field */
+#showTaxed {
+    margin: 0;
+}
+#showTaxed h3 {
+    font-size: 27.5px;
+    font-weight: 500;
+}
+#showTaxed ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style: none;
+    padding-left: 0px;
+
+    & li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 22.5px;
+        text-indent: 0px;
+
+        padding-left: 35px;
+    }
+
+    & #totalTaxListItem {
+        padding-top: 10px;
+        border-top: 1px solid black;
+    }
+}
+
 #input-fields .hidden {
     display: none;
 }
@@ -392,7 +429,7 @@ h1 {
 }
 
 #summary p {
-    font-size: 35px;
+    font-size: 30px;
 }
 
 #summary button {
@@ -483,7 +520,6 @@ h1 {
             &:not(:first-child)::before {
                 content: "";
                 width: 3em;
-                border: 5px solid var(--light-grey);
                 transform: translate(-2em, 0.75em);
             }
         }
@@ -625,6 +661,20 @@ h1 {
         max-width: none;
         width: 90%;
     }
+
+    /* chart */
+    #chartStyler {
+        --chart-size: 100%;
+        max-width: var(--chart-size);
+        max-height: var(--chart-size);
+    
+        & canvas:not(.hidden) {
+            margin-bottom: 20px;
+            width: var(--chart-size);
+            height: var(--chart-size);
+        }
+    }
+    
 
     #NetIncome h3 {
         text-wrap: nowrap;

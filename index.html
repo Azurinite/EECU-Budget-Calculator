@@ -125,6 +125,41 @@
                         <!--All the inputs need an id and/or name-->
                         <input type="number" id="freelanceIncome" placeholder="Freelance/ Side Income">
                     </section>
+                    <section id="showTaxed" class="">
+                        <h3>Amounts taxed from salary</h3>
+                        <ul>
+                            <li>
+                                <span>Medicare: </span>
+                                <span id="medicareTax"></span>
+                            </li>
+                            <li>
+                                <span>Social Security: </span>
+                                <span id="socialSecurityTax"></span>
+                            </li>
+                            <li>
+                                <span>Federal Income Tax: </span>
+                                <span id="federalIncomeTax"></span>
+                            </li>
+                            <li>
+                                <span>State Tax: </span>
+                                <span id="stateTax"></span>
+                            </li>
+
+                            <strong>
+                                <li id="totalTaxListItem">
+                                    <span>Total Tax:</span>
+                                    <span id="totalTax"></span>
+
+                                </li>
+                            </strong>
+                            <strong>
+                                <li id="remainingAfterSalary">
+                                    <span>➤ Monthly Income After Taxes: </span>
+                                    <span id="earningsAfterTax"></span>
+                                </li>
+                            </strong>
+                        </ul>
+                    </section>
 
                 </section>
 
@@ -246,12 +281,12 @@
                     <h2>Summary</h2>
 
                     <section id="savingSurplus" class="advice">
-                        <p id="observation"> Congratulations! You are earning more than you spend and are saving enough
-                            for your future. </p>
+                        <p id="observation"> Congratulations! You are earning more than you spend and are saving more
+                            than 10% of your budget for your future. </p>
                     </section>
 
                     <section id="needToSave" class="advice hidden">
-                        <p id="observation"> You are making more than you earn. However, it doesn&apos;t like seem
+                        <p id="observation"> You are earning more than you spend. However, it doesn&apos;t like seem
                             like you are saving enough money for your future. </p>
                         <p id="wiseUp"><strong>Wise-Up</strong>: Cut down on leisure expenses to save at least 10% of
                             your
@@ -259,7 +294,7 @@
                     </section>
 
                     <section id="netLoss" class="advice hidden">
-                        <p id="observation"> It seems like you are losing more money than you earn. </p>
+                        <p id="observation"> It seems like you are spending more money than you earn. </p>
                         <p id="wiseUp"><strong>Wise-Up</strong>: Cut down on leisure expenses to save at least 10% of
                             your
                             income for your future. </p>

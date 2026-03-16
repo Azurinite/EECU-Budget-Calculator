@@ -49,7 +49,6 @@ const canvas = document.getElementById("budgetChart") || document.querySelector(
 let current_chart = null;
 
 let preloadedInputValues = loadData("inputValues");
-console.log(preloadedInputValues);
 
 // LocalStorage
 const savedInputData = loadData("Data") || [];
@@ -111,16 +110,16 @@ function buildList(jobs = []) {
     // When you parent that to something everything inside the fragment becomes an immediate child of the parent
     const frag = document.createDocumentFragment();
     for (const { Occupation, Salary } of jobs) {
-        // Make option element, store occupation name and salarly seperately
+        // Make option element, store occupation name and MONTHLY salary (divide by 12) seperately
         const option = document.createElement('option');
-        option.value = `${Occupation}: ${formatter.format(Salary)}`
+        option.value = `${Occupation}: ${formatter.format(Salary/12)}`
 
         const occ = document.createElement('div');
         occ.textContent = `${Occupation}: `;
         option.append(occ);
 
         const sal = document.createElement('div');
-        sal.textContent = `${formatter.format(Salary)}`;
+        sal.textContent = `${formatter.format(Salary/12)}`;
         option.append(sal);
 
         frag.append(option);
@@ -184,7 +183,7 @@ function sum(inputs) {
 }
 
 // Progressive Tax Function
-function taxSalary(salary) {
+function getTax(salary) {
     // Taxes to apply at some point
     const medicare = 0.0145;
     const socialSecurity = 0.062;
@@ -227,8 +226,16 @@ function taxSalary(salary) {
 
     const totalTaxed = (medicareTaxed + socialSecurityTaxed + stateTaxed + progressiveTaxed);
 
+    // Show those taxed amounts on page
+    document.querySelector('#medicareTax').textContent = formatMoney(medicareTaxed);
+    document.querySelector('#socialSecurityTax').textContent = formatMoney(socialSecurityTaxed);
+    document.querySelector('#federalIncomeTax').textContent = formatMoney(progressiveTaxed);
+    document.querySelector('#stateTax').textContent = formatMoney(stateTaxed);
+    document.querySelector('#totalTax').textContent = formatMoney(totalTaxed);
+    document.querySelector('#earningsAfterTax').textContent = formatMoney(salary - totalTaxed);
+
     // Return salary after taxes are taken off
-    return salary - totalTaxed;
+    return totalTaxed;
 }
 
 function getIncome() {
@@ -239,7 +246,7 @@ function getIncome() {
     if (careerSelected) {
         // Grabbing only the numbers in the salary part of the careerSelected string
         const careerSalary = Number(careerSelected.split('$')[1].replace(/[^0-9.\-]/g, ''));
-        const taxedSalary = taxSalary(careerSalary)
+        const taxedSalary = careerSalary - getTax(careerSalary)
         totalIncome += taxedSalary;
     }
     // Income from other input fields
@@ -335,13 +342,12 @@ function updateAll() {
 
     // Summary Page
     const futureSavings = dataArray[4];
-    console.log(futureSavings)
     for (const advice of adviceList) {
         advice.classList.add('hidden');
     }
 
     // Show advice depending on net income status
-    if (netIncome > 0) {
+    if (netIncome >= 0) {
         const percentInSavings = (futureSavings/totalExpenses)*100;
         if (percentInSavings < 10) {
             adviceNeedToSave.classList.remove('hidden');
@@ -436,6 +442,14 @@ document.body.addEventListener("select", () => {
     updateAll();
     saveInputValues();
 });
+
+let resizeTimer;
+window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        updateAll();
+    }, 250);
+})
 
 
 // Load everything (saved input values and updated expense displays) when page loads
