@@ -192,45 +192,31 @@ function taxSalary(salary) {
 
     const progressiveTax = () => {
         const deductible = 16100;
-        const salAfterDeduct = (salary - deductible)
+        const taxableSal = Math.max(0, (salary - deductible));
 
-        const tenPercentThreshold = 12400;
-        const twelvePercentThreshold = 50400;
+        const firstBracketMax = 12400;
+        const secondBracketMax = 50400;
 
-        let totalAmtTaxed = 0
+        const firstTax = 0.1;
+        const secondTax = 0.12;
+        const thirdTax = 0.22;
 
-        const bracket1 = () => {
-            // Get max cash that can be put in the bracket
-            const salInLowBracket = Math.min(salAfterDeduct, tenPercentThreshold);
+        let tax = 0;
 
-            const lowTaxRate = 0.1;
-            totalAmtTaxed += salInLowBracket * lowTaxRate;
-        };
-        const bracket2 = () => {
-            // Salary that would be taxed in the second bracket
-            const salToTax = salAfterDeduct - tenPercentThreshold;
+        if (taxableSal <= firstBracketMax) {
+            tax += taxableSal * firstTax
 
-            if (salToTax > 0) {
-                // Get max cash that can be put in the bracket
-                const salInMiddleBracket = Math.min(salToTax, twelvePercentThreshold)
-                const midTaxRate = 0.12;
-                totalAmtTaxed += salInMiddleBracket * midTaxRate;
-            }
-        };
-        const bracket3 = () => {
-            const salInHighBracket = salAfterDeduct - twelvePercentThreshold
+        } else if (taxableSal <= secondBracketMax) {
+            tax += firstBracketMax * firstTax
+            tax += (taxableSal - firstBracketMax) * secondTax
 
-            if (salInHighBracket > 0) {
-                const highTaxRate = 0.22;
-                totalAmtTaxed += salInHighBracket * highTaxRate;
-            }
-        };
+        } else if (taxableSal) {
+            tax += firstBracketMax * firstTax
+            tax += secondBracketMax * secondTax
+            tax += (taxableSal - secondBracketMax) * thirdTax
+        }
 
-        bracket1();
-        bracket2();
-        bracket3();
-
-        return totalAmtTaxed;
+        return tax;
     };
 
     // All taxes are applied at the same time
