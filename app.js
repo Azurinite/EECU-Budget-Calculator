@@ -2,26 +2,6 @@
 const collapse = document.querySelector('#collapse')
 const bigParagraph = document.querySelector('#startingText')
 
-const savedInputData = loadData("Data") || []
-
-// LocalStorage saving functions, so I don't accidentally forget to JSON.parse()
-function saveData(keyName, data) {
-    localStorage.setItem(keyName, JSON.stringify(data))
-}
-function loadData(keyName) {
-    try {
-        return JSON.parse(localStorage.getItem(keyName))
-    } catch (err) {
-        console.log("Returned empty table: " + err)
-        return []
-    }
-}
-
-collapse.addEventListener("click", () => {
-    collapse.classList.toggle("collapse")
-    bigParagraph.classList.toggle("hidden")
-})
-
 // Step navigation
 const step_jump = document.querySelector('.step-container');
 const forms = document.querySelector('#input-fields');
@@ -32,6 +12,45 @@ const returnToFirstPage = document.querySelector('#returnToFirstPage')
 let current_form = forms.children[0];
 let current_page = 0;
 
+// Input Fields and Expense Displays
+const [...sections] = document.querySelectorAll("section:not(.income)");
+const filteredSections = Array.from(sections).filter(element => {
+    return element.classList.contains('inputs');
+});
+const inputs = filteredSections.map(section =>
+    Array.from(section.querySelectorAll("input"))
+);
+const [...incomeInputs] = document.querySelectorAll('#incomeInputs input')
+const [...inputFields] = document.querySelectorAll('.inputs')
+
+const [...expenseDisplays] = document.querySelectorAll('.expenseDisplay')
+const totalIncomeDisplay = document.querySelector('#totalIncome p')
+const totalExpenseDisplay = document.querySelector('#totalExpenses p')
+const netIncomeDisplay = document.querySelector('#NetIncome p')
+
+// Stuff for Fetch API
+// Fetch API for income
+const careerDropdown = document.querySelector("#careerDropdown")
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+});
+
+// Chart Stuff
+const chartContainer = document.querySelector('#chartStyler')
+const chartPlaceholderText = document.querySelector('#chartPlaceholder')
+const canvas = document.getElementById("budgetChart") || document.querySelector("canvas");
+let current_chart = null;
+
+let preloadedInputValues = loadData("inputValues");
+console.log(preloadedInputValues);
+
+// LocalStorage
+const savedInputData = loadData("Data") || []
+
+
+
+// Navigating between forms/"pages"
 function renderPage() {
     // Hide previous form and show new form
     if (current_form) {
@@ -69,41 +88,8 @@ function renderPage() {
     document.querySelector('.Buttons').scrollIntoView({ block: "end", behavior: 'smooth' });
 }
 
-for (const step of step_jump.children) {
-    step.addEventListener("click", () => {
 
-        // Navigate across pages
-        current_page = Number(step.getAttribute("navTo"));
-        renderPage();
-    });
-}
-
-// Next button and back button
-nextButton.addEventListener("click", () => {
-    current_page++;
-    renderPage();
-})
-
-backButton.addEventListener("click", () => {
-    current_page--;
-    renderPage();
-})
-
-returnToFirstPage.addEventListener("click", () => {
-    current_page = 0;
-    renderPage();
-})
-
-
-
-// Fetch API for income
-const careerDropdown = document.querySelector("#careerDropdown")
-
-const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-});
-
+// Fetch API and affected dropdown functions
 // Function just to grab a url
 async function fetchJson(url) {
     const resp = await fetch(url);
@@ -143,10 +129,25 @@ async function init() {
 
     try {
         const jobs = await fetchJson(url);
-        // Append the array of options to the dropdown
+        // Append the array of options to the dropdown, then load the saved career value
         careerDropdown.append(buildList(jobs));
-        // We're loading the saved career value here cuz anywhere else will cause the code to run before the options load...
         careerDropdown.selectedIndex = loadData("careerIndex")
+
+        // If values were inputted previously and user reopens the page, put those values back
+        // Also practically determines the saved income/expense values (except dropdown)
+        if (preloadedInputValues) {
+            preloadedInputValues.forEach((inputSection, sectionIndex) => {
+                inputSection.forEach((inputValue, inputIndex) => {
+                    // I know this is really scuffed... this is to account for income inputs and normal inputs being split up
+                    if (sectionIndex == 0) {
+                        incomeInputs[inputIndex].value = inputValue || ''
+                    } else {
+                        inputs[sectionIndex - 1][inputIndex].value = inputValue || '';
+                    }
+                })
+            })
+        }
+
         updateAll();
     } catch (err) {
         // If there's an error... the page will tell you. Whoops
@@ -155,83 +156,11 @@ async function init() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', init)
 
-
-
-// Chart
-const chartContainer = document.querySelector('#chartStyler')
-const chartPlaceholderText = document.querySelector('#chartPlaceholder')
-
-const [...expenseDisplays] = document.querySelectorAll('.expenseDisplay')
-const [...inputFields] = document.querySelectorAll('.inputs')
-
-const totalIncomeDisplay = document.querySelector('#totalIncome p')
-const totalExpenseDisplay = document.querySelector('#totalExpenses p')
-const netIncomeDisplay = document.querySelector('#NetIncome p')
-
-const incomeInputs = document.querySelectorAll('#incomeInputs input')
-
-// Get sections housing expense input fields
-const [...sections] = document.querySelectorAll("section:not(.income)");
-const filteredSections = Array.from(sections).filter(element => {
-    return element.classList.contains('inputs');
-});
-// Get an array... which houses arrays containing each input for each section (ex. all the inputs in education, all the inputs in housing)
-const inputs = filteredSections.map(section =>
-    Array.from(section.querySelectorAll("input"))
-);
-
-let preloadedInputValues = loadData("inputValues");
-console.log(preloadedInputValues);
-// Check if there were input values saved (weird way to check, I know)
-
-function saveInputValues() {
-    preloadedInputValues = [];
-    // FOR INCOME
-    // Dropdown
-    const career = careerDropdown.selectedIndex;
-    saveData("careerIndex", career)
-
-    // Inputs
-    const incomeSection = []
-    preloadedInputValues.push(incomeSection)
-    for (const input of incomeInputs) {
-        incomeSection.push(input.value || '')
-    };
-
-    // FOR EXPENSES
-    // Make a fresh slate of input values to save if not
-    inputs.forEach((inputSection, sectionIndex) => {
-        const valuesInSection = []
-        preloadedInputValues.push(valuesInSection);
-        for (const input of inputSection) {
-            // Set to seen input value, or to an empty string
-            valuesInSection.push(input.value || '');
-        }
-    });
-    saveData("inputValues", preloadedInputValues);
-}
-
-// Load all the saved input values when the website loads
-
-if (preloadedInputValues) {
-    preloadedInputValues.forEach((inputSection, sectionIndex) => {
-        inputSection.forEach((inputValue, inputIndex) => {
-            // I know this is really scuffed... this is to account for income inputs and normal inputs being split up
-            if (sectionIndex == 0) {
-                incomeInputs[inputIndex].value = inputValue || ''
-            } else {
-                inputs[sectionIndex - 1][inputIndex].value = inputValue || '';
-            }
-        })
-    })
-}
-
-// Sum the values of all inputs in a category (ex. total in education, total in housing)
 /**
  * @param {NodeListOf<HTMLInputElement>} inputs 
  */
+// Sum the values of all inputs in a category (ex. total in education, total in housing)
 function sum(inputs) {
     const arr = Array.from(inputs);
     if (arr.length === 0) return 0;
@@ -248,18 +177,7 @@ function sum(inputs) {
     }, 0)
 }
 
-// Function for formatting money text
-function formatMoney(dollars) {
-    // This method converts numbers to have money formatting, apparently
-    const text = dollars.toLocaleString("en-US", {
-        minimumFractionDigits: 2, // Always show cents
-        maximumFractionDigits: 2
-    });
-
-    return `$${text}`;
-}
-
-// Calculate taxes on a salary
+// Progressive Tax Function
 function taxSalary(salary) {
     // Taxes to apply at some point
     const medicare = 0.0145;
@@ -278,7 +196,6 @@ function taxSalary(salary) {
         const bracket1 = () => {
             // Get max cash that can be put in the bracket
             const salInLowBracket = Math.min(salAfterDeduct, tenPercentThreshold);
-            console.log(salInLowBracket)
 
             const lowTaxRate = 0.1;
             totalAmtTaxed += salInLowBracket * lowTaxRate;
@@ -286,7 +203,6 @@ function taxSalary(salary) {
         const bracket2 = () => {
             // Salary that would be taxed in the second bracket
             const salToTax = salAfterDeduct - tenPercentThreshold;
-            console.log(salToTax)
 
             if (salToTax > 0) {
                 // Get max cash that can be put in the bracket
@@ -297,7 +213,6 @@ function taxSalary(salary) {
         };
         const bracket3 = () => {
             const salInHighBracket = salAfterDeduct - twelvePercentThreshold
-            console.log(salInHighBracket)
 
             if (salInHighBracket > 0) {
                 const highTaxRate = 0.22;
@@ -324,9 +239,7 @@ function taxSalary(salary) {
     return salary - totalTaxed;
 }
 
-
-// Functions for summing & displaying income or expenses
-const getIncome = () => {
+function getIncome() {
     let totalIncome = 0
 
     // careerSelected string has occupation name + salary in it
@@ -355,10 +268,18 @@ function getTotalExpenses(spentPerCategory) {
     return totalExpenses
 }
 
-// Get the pie chart
-const canvas = document.getElementById("budgetChart") || document.querySelector("canvas");
-let current_chart = null;
+function formatMoney(dollars) {
+    // This method converts numbers to have money formatting, apparently
+    const text = dollars.toLocaleString("en-US", {
+        minimumFractionDigits: 2, // Always show cents
+        maximumFractionDigits: 2
+    });
 
+    return `$${text}`;
+}
+
+
+// Update displays to show expenses
 // Update showing budget at the left
 function updateAll() {
     // Sum up the inputs in each section to get the total of each section (ex. total of Education, total of Housing)
@@ -421,6 +342,80 @@ function updateAll() {
     }
 }
 
+
+// LocalStorage saving functions
+function saveData(keyName, data) {
+    localStorage.setItem(keyName, JSON.stringify(data))
+}
+
+function loadData(keyName) {
+    try {
+        return JSON.parse(localStorage.getItem(keyName))
+    } catch (err) {
+        console.log("Returned empty table: " + err)
+        return []
+    }
+}
+
+function saveInputValues() {
+    preloadedInputValues = [];
+    // FOR INCOME
+    // Dropdown
+    const career = careerDropdown.selectedIndex;
+    saveData("careerIndex", career)
+
+    // Inputs
+    const incomeSection = []
+    preloadedInputValues.push(incomeSection)
+    for (const input of incomeInputs) {
+        incomeSection.push(input.value || '')
+    };
+
+    // FOR EXPENSES
+    // Make a fresh slate of input values to save if not
+    inputs.forEach((inputSection, sectionIndex) => {
+        const valuesInSection = []
+        preloadedInputValues.push(valuesInSection);
+        for (const input of inputSection) {
+            // Set to seen input value, or to an empty string
+            valuesInSection.push(input.value || '');
+        }
+    });
+    saveData("inputValues", preloadedInputValues);
+}
+
+
+// Collapse description text
+collapse.addEventListener("click", () => {
+    collapse.classList.toggle("collapse")
+    bigParagraph.classList.toggle("hidden")
+})
+
+
+// Event listeners for buttons controlling page navigation
+for (const step of step_jump.children) {
+    step.addEventListener("click", () => {
+
+        // Navigate across pages
+        current_page = Number(step.getAttribute("navTo"));
+        renderPage();
+    });
+}
+
+nextButton.addEventListener("click", () => {
+    current_page++;
+    renderPage();
+})
+backButton.addEventListener("click", () => {
+    current_page--;
+    renderPage();
+})
+returnToFirstPage.addEventListener("click", () => {
+    current_page = 0;
+    renderPage();
+})
+
+
 // Update chart whenever typing in an input field
 document.body.addEventListener("input", () => {
     updateAll();
@@ -430,3 +425,7 @@ document.body.addEventListener("select", () => {
     updateAll();
     saveInputValues();
 });
+
+
+// Load everything (saved input values and updated expense displays) when page loads
+document.addEventListener('DOMContentLoaded', init)
