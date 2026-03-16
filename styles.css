@@ -1,7 +1,7 @@
 :root {
     --primary-blue: #095AA7;
-    --saving-green: #1C9800;
-    --debt-red: #CF0000;
+    --saving-green: #1a8103;
+    --debt-red: #B30000;
     --light-grey: #EEEEEE;
     --hover-blue: #2383DE;
     font-family: 'Rubik', sans-serif;
@@ -341,6 +341,7 @@ h1 {
     & #totalTaxListItem {
         padding-top: 10px;
         border-top: 1px solid black;
+        color: var(--debt-red);
     }
 }
 
@@ -734,6 +735,24 @@ h1 {
     }
 
     /* Right Side */
+    #showTaxed ul {
+        gap: 10px;
+        list-style: none;
+        padding-left: 0px;
+    
+        & li {
+            font-size: 22.5px;
+            text-indent: 0px;
+    
+            padding-left: 15px;
+        }
+    
+        & #totalTaxListItem {
+            padding-top: 10px;
+            border-top: 1px solid black;
+        }
+    }
+
     #input-fields {
         order: 0;
     }
